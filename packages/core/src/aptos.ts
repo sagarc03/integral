@@ -1,5 +1,4 @@
 import { AptosClient, ApiError, Types } from "aptos";
-import { transcode } from "buffer";
 
 const NODE_URL = "https://fullnode.mainnet.aptoslabs.com/v1";
 
@@ -52,6 +51,5 @@ export async function getWalletTransaction(
     start = end;
     end += BigInt(100);
   }
-  data[0].payload;
   return data;
 }

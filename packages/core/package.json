@@ -8,15 +8,17 @@
   },
   "devDependencies": {
     "@types/node": "^20.4.2",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.42.0",
     "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.45.0",
     "eslint-config-prettier": "^8.8.0",
     "prettier": "^3.0.0",
-    "eslint": "^8.45.0",
     "sst": "^2.21.4",
     "vitest": "^0.33.0"
   },
   "dependencies": {
-    "aptos": "^1.13.2"
+    "aptos": "^1.13.2",
+    "kysely": "^0.23.5",
+    "kysely-data-api": "^0.2.1"
   }
 }
