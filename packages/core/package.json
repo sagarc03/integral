@@ -7,8 +7,16 @@
     "typecheck": "tsc -noEmit"
   },
   "devDependencies": {
-    "vitest": "^0.33.0",
     "@types/node": "^20.4.2",
-    "sst": "^2.21.4"
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint-config-prettier": "^8.8.0",
+    "prettier": "^3.0.0",
+    "eslint": "^8.45.0",
+    "sst": "^2.21.4",
+    "vitest": "^0.33.0"
+  },
+  "dependencies": {
+    "aptos": "^1.13.2"
   }
 }
