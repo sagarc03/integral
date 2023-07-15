@@ -1,4 +1,11 @@
-import { StackContext, NextjsSite, RDS } from "sst/constructs";
+import {
+  StackContext,
+  NextjsSite,
+  RDS,
+  Api,
+  EventBus,
+  Cron,
+} from "sst/constructs";
 
 export function Default({ stack }: StackContext) {
   const rds = new RDS(stack, "Database", {
@@ -12,11 +19,43 @@ export function Default({ stack }: StackContext) {
     },
     types: "packages/core/src/types.ts",
   });
+
+  const bus = new EventBus(stack, "bus", {
+    defaults: {
+      retries: 5,
+    },
+  });
+
+  bus.subscribe("wallet.created", {
+    handler: "packages/functions/src/transactions.walletCreated",
+    bind: [rds],
+  });
+
+  const cron = new Cron(stack, "cron", {
+    schedule: "rate(1 minute)",
+    job: "packages/functions/src/wallet.checkForNewTransaction",
+  });
+  cron.bind([rds, bus]);
+
+  const api = new Api(stack, "api", {
+    defaults: {
+      function: {
+        bind: [rds, bus],
+      },
+    },
+    routes: {
+      "GET /wallet": "packages/functions/src/wallet.list",
+      "POST /wallet": "packages/functions/src/wallet.create",
+      "DELETE /wallet/{id}": "packages/functions/src/wallet.destroy",
+      "GET /transactions/{id}": "packages/functions/src/transactions.list",
+    },
+  });
+
   const site = new NextjsSite(stack, "site", {
     path: "packages/web",
   });
   stack.addOutputs({
     SiteUrl: site.url,
-    ClusterArn: rds.clusterArn,
+    ApiEndpoint: api.url,
   });
 }
