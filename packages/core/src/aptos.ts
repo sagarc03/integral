@@ -2,7 +2,7 @@ import { AptosClient, ApiError, Types } from "aptos";
 
 const NODE_URL = "https://fullnode.mainnet.aptoslabs.com/v1";
 
-const client = new AptosClient(NODE_URL);
+export const client = new AptosClient(NODE_URL);
 
 export async function validateWalletAndReturnSequenceNumber(address: string) {
   try {

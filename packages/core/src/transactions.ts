@@ -4,15 +4,28 @@ import { Types } from "aptos";
 export async function getTransactions(
   wallet_id: number,
   page_number: number,
-  items_per_page = 100,
+  page_size: number,
 ) {
   return await db
     .selectFrom("transaction")
-    .selectAll()
+    .select([
+      "id",
+      "wallet_id",
+      "version",
+      "hash",
+      "gas_used",
+      "success",
+      "sequence_number",
+      "max_gas_amount",
+      "gas_unit_price",
+      "expiration_timestamp_secs",
+      "signature",
+      "timestamp",
+    ])
     .where("wallet_id", "=", wallet_id)
-    .orderBy("timestamp")
-    .offset(page_number * items_per_page)
-    .limit(items_per_page)
+    .orderBy("timestamp", "desc")
+    .offset((page_number - 1) * page_size)
+    .limit(page_size)
     .execute();
 }
 
@@ -51,4 +64,12 @@ export async function addTransactions(
       .onConflict((oc) => oc.doNothing())
       .execute();
   });
+}
+
+export async function countTransactions(wallet_id: number) {
+  return await db
+    .selectFrom("transaction")
+    .select(() => db.fn.countAll().as("count"))
+    .where("wallet_id", "=", wallet_id)
+    .execute();
 }

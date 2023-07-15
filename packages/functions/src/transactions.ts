@@ -2,8 +2,11 @@ import { EventHandler } from "sst/node/event-bus";
 import { ApiHandler } from "sst/node/api";
 import { Events } from "./events";
 import { getAllWalletbyId, updateWalletSequence } from "@integral/core/wallet";
-import { getWalletTransaction } from "@integral/core/aptos";
-import { addTransactions, getTransactions } from "@integral/core/transactions";
+import {
+  countTransactions,
+  getTransactions,
+} from "@integral/core/transactions";
+import { addWalletTransaction } from "@integral/core/wrapper";
 
 export const addNewTransactions = async (id: number, last: string) => {
   const { address, sequence_number } = await getAllWalletbyId(id);
@@ -11,8 +14,7 @@ export const addNewTransactions = async (id: number, last: string) => {
   if (sequence_number !== "") {
     start = (BigInt(sequence_number) + 1n).toString();
   }
-  const transactions = await getWalletTransaction(address, start, last);
-  await addTransactions(id, transactions);
+  await addWalletTransaction(id, address, start, last);
   await updateWalletSequence(id, last);
 };
 
@@ -29,14 +31,34 @@ export const list = ApiHandler(async (evt) => {
       statusCode: 404,
     };
   }
-  let page_number = 0;
+  let page_number = 1;
+  let page_size = 100;
   if (evt.queryStringParameters && evt.queryStringParameters.page) {
     page_number = parseInt(evt.queryStringParameters.page);
+    if (page_number <= 0) {
+      page_number = 1;
+    }
+  }
+  if (evt.queryStringParameters && evt.queryStringParameters.size) {
+    page_size = parseInt(evt.queryStringParameters.size);
+    if (page_size <= 0) {
+      page_size = 100;
+    }
   }
   const id = parseInt(evt.pathParameters.id);
-  const res = await getTransactions(id, page_number, 100);
+
+  const res = await getTransactions(id, page_number, page_size);
+  const wallet = await getAllWalletbyId(id);
+  const [count] = await countTransactions(id);
+
   return {
     statusCode: 200,
-    body: JSON.stringify(res),
+    body: JSON.stringify({
+      transactions: res,
+      address: wallet.address,
+      page_number: page_number,
+      page_size: page_size,
+      total_records: count.count,
+    }),
   };
 });

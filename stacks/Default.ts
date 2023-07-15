@@ -32,7 +32,7 @@ export function Default({ stack }: StackContext) {
   });
 
   const cron = new Cron(stack, "cron", {
-    schedule: "rate(1 minute)",
+    schedule: "rate(4 hours)",
     job: "packages/functions/src/wallet.checkForNewTransaction",
   });
   cron.bind([rds, bus]);
@@ -45,14 +45,15 @@ export function Default({ stack }: StackContext) {
     },
     routes: {
       "GET /wallet": "packages/functions/src/wallet.list",
+      "GET /wallet/{id}": "packages/functions/src/transactions.list",
       "POST /wallet": "packages/functions/src/wallet.create",
       "DELETE /wallet/{id}": "packages/functions/src/wallet.destroy",
-      "GET /transactions/{id}": "packages/functions/src/transactions.list",
     },
   });
 
   const site = new NextjsSite(stack, "site", {
     path: "packages/web",
+    bind: [api],
   });
   stack.addOutputs({
     SiteUrl: site.url,
