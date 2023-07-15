@@ -34,7 +34,7 @@ export async function getWalletTransaction(
 ) {
   let start = BigInt(start_sequence_number);
   const lastSeq = BigInt(end_sequence_number);
-  let end = start + BigInt(100);
+  let end = start + 100n;
   const data: Types.Transaction_UserTransaction[] = [];
   while (start < lastSeq) {
     const evts = await client.getAccountTransactions(address, {
@@ -49,7 +49,7 @@ export async function getWalletTransaction(
     });
 
     start = end;
-    end += BigInt(100);
+    end += 100n;
   }
   return data;
 }

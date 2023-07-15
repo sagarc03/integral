@@ -8,28 +8,33 @@ export async function up(db) {
   // Migration code
   await db.schema
     .createTable("transaction")
+    .addColumn("id", "serial", (col) => col.primaryKey())
     .addColumn("wallet_id", "integer", (col) =>
       col.references("wallet.id").onDelete("cascade").notNull(),
     )
-    .addColumn("version", "varchar", (col) => col.notNull())
-    .addColumn("hash", "varchar", (col) => col.notNull())
-    .addColumn("state_change_hash", "varchar", (col) => col.notNull())
-    .addColumn("event_root_hash", "varchar", (col) => col.notNull())
+    .addColumn("version", "varchar")
+    .addColumn("hash", "varchar")
+    .addColumn("state_change_hash", "varchar")
+    .addColumn("event_root_hash", "varchar")
     .addColumn("state_checkpoint_hash", "varchar")
-    .addColumn("gas_used", "varchar", (col) => col.notNull())
-    .addColumn("success", "boolean", (col) => col.notNull())
-    .addColumn("vm_status", "varchar", (col) => col.notNull())
-    .addColumn("accumulator_root_hash", "varchar", (col) => col.notNull())
-    .addColumn("changes", "jsonb", (col) => col.notNull())
-    .addColumn("sender", "varchar", (col) => col.notNull())
+    .addColumn("gas_used", "varchar")
+    .addColumn("success", "boolean")
+    .addColumn("vm_status", "varchar")
+    .addColumn("accumulator_root_hash", "varchar")
+    .addColumn("changes", "jsonb")
+    .addColumn("sender", "varchar")
     .addColumn("sequence_number", "varchar", (col) => col.notNull())
-    .addColumn("max_gas_amount", "varchar", (col) => col.notNull())
-    .addColumn("gas_unit_price", "varchar", (col) => col.notNull())
-    .addColumn("expiration_timestamp_secs", "varchar", (col) => col.notNull())
-    .addColumn("payload", "jsonb", (col) => col.notNull())
+    .addColumn("max_gas_amount", "varchar")
+    .addColumn("gas_unit_price", "varchar")
+    .addColumn("expiration_timestamp_secs", "varchar")
+    .addColumn("payload", "jsonb")
     .addColumn("signature", "jsonb")
-    .addColumn("events", "jsonb", (col) => col.notNull())
-    .addColumn("timestamp", "varchar", (col) => col.notNull())
+    .addColumn("events", "jsonb")
+    .addColumn("timestamp", "varchar")
+    .addUniqueConstraint("unique_wallet_id_sequence_number", [
+      "wallet_id",
+      "sequence_number",
+    ])
     .execute();
 }
 

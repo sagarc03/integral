@@ -1,4 +1,4 @@
-import { Kysely } from "kysely";
+import { Kysely, sql, RawBuilder } from "kysely";
 import { DataApiDialect } from "kysely-data-api";
 import { RDSData } from "@aws-sdk/client-rds-data";
 import { RDS } from "sst/node/rds";
@@ -15,3 +15,7 @@ export const db = new Kysely<Database>({
     },
   }),
 });
+
+export function json<T>(object: T): RawBuilder<T> {
+  return sql`cast (${JSON.stringify(object)} as jsonb)`;
+}

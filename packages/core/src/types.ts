@@ -17,26 +17,27 @@ export type JsonPrimitive = boolean | null | number | string;
 export type JsonValue = JsonArray | JsonObject | JsonPrimitive;
 
 export interface Transaction {
+  id: Generated<number>;
   wallet_id: number;
-  version: string;
-  hash: string;
-  state_change_hash: string;
-  event_root_hash: string;
+  version: string | null;
+  hash: string | null;
+  state_change_hash: string | null;
+  event_root_hash: string | null;
   state_checkpoint_hash: string | null;
-  gas_used: string;
-  success: boolean;
-  vm_status: string;
-  accumulator_root_hash: string;
-  changes: Json;
-  sender: string;
+  gas_used: string | null;
+  success: boolean | null;
+  vm_status: string | null;
+  accumulator_root_hash: string | null;
+  changes: Json | null;
+  sender: string | null;
   sequence_number: string;
-  max_gas_amount: string;
-  gas_unit_price: string;
-  expiration_timestamp_secs: string;
-  payload: Json;
+  max_gas_amount: string | null;
+  gas_unit_price: string | null;
+  expiration_timestamp_secs: string | null;
+  payload: Json | null;
   signature: Json | null;
-  events: Json;
-  timestamp: string;
+  events: Json | null;
+  timestamp: string | null;
 }
 
 export interface Wallet {
