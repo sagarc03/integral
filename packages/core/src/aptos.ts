@@ -1,4 +1,4 @@
-import { AptosClient, ApiError, Types } from "aptos";
+import { ApiError, AptosClient, Types } from "aptos";
 
 const NODE_URL = "https://fullnode.mainnet.aptoslabs.com/v1";
 

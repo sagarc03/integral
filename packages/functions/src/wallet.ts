@@ -1,6 +1,6 @@
-import { ApiHandler } from "sst/node/api";
 import { validateWalletAndReturnSequenceNumber } from "@integral/core/aptos";
-import { addWallet, getAllWallet, destoryWallet } from "@integral/core/wallet";
+import { addWallet, destoryWallet, getAllWallet } from "@integral/core/wallet";
+import { ApiHandler } from "sst/node/api";
 import { Events } from "./events";
 
 export const list = ApiHandler(async (_evt) => {

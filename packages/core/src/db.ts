@@ -1,6 +1,6 @@
-import { Kysely, sql, RawBuilder } from "kysely";
-import { DataApiDialect } from "kysely-data-api";
 import { RDSData } from "@aws-sdk/client-rds-data";
+import { Kysely, RawBuilder, sql } from "kysely";
+import { DataApiDialect } from "kysely-data-api";
 import { RDS } from "sst/node/rds";
 import { Database } from "./types";
 

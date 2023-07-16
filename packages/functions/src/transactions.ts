@@ -1,12 +1,12 @@
-import { EventHandler } from "sst/node/event-bus";
-import { ApiHandler } from "sst/node/api";
-import { Events } from "./events";
-import { getAllWalletbyId, updateWalletSequence } from "@integral/core/wallet";
 import {
   countTransactions,
   getTransactions,
 } from "@integral/core/transactions";
+import { getAllWalletbyId, updateWalletSequence } from "@integral/core/wallet";
 import { addWalletTransaction } from "@integral/core/wrapper";
+import { ApiHandler } from "sst/node/api";
+import { EventHandler } from "sst/node/event-bus";
+import { Events } from "./events";
 
 export const addNewTransactions = async (id: number, last: string) => {
   const { address, sequence_number } = await getAllWalletbyId(id);

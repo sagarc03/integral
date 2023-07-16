@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -7,10 +8,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Api } from "sst/node/api";
-import { Button } from "@/components/ui/button";
-import { ChevronRight, ChevronLeft } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
+import { Api } from "sst/node/api";
 
 type Transaction = {
   id: number;
@@ -110,9 +110,8 @@ export default async function Home({
       </Table>
       <div className="flex gap-2 p-2">
         <Link
-          href={`/${id}?page=${
-            page_number <= 1 ? page_number : page_number - 1
-          }&size=${page_size}`}
+          href={`/${id}?page=${page_number <= 1 ? page_number : page_number - 1
+            }&size=${page_size}`}
         >
           <Button size="icon">
             <ChevronLeft className="h-4 w-4" />
@@ -120,9 +119,8 @@ export default async function Home({
         </Link>
 
         <Link
-          href={`/${id}?page=${
-            page_number < number_of_pages ? page_number + 1 : page_number
-          }&size=${page_size}`}
+          href={`/${id}?page=${page_number < number_of_pages ? page_number + 1 : page_number
+            }&size=${page_size}`}
         >
           <Button size="icon">
             <ChevronRight className="h-4 w-4" />
