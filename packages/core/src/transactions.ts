@@ -73,3 +73,12 @@ export async function countTransactions(wallet_id: number) {
     .where("wallet_id", "=", wallet_id)
     .execute();
 }
+
+export async function maxSequenceNumber(wallet_id: number) {
+  return await db
+    .selectFrom("transaction")
+    .select(({fn}) => fn.max("sequence_number").as("max_sequence_number"))
+    .where("wallet_id", "=", wallet_id)
+    .execute();
+
+}

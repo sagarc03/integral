@@ -1,6 +1,7 @@
 import { ApiError, AptosClient, Types } from "aptos";
 
-const NODE_URL = "https://fullnode.mainnet.aptoslabs.com/v1";
+// const NODE_URL = "https://fullnode.mainnet.aptoslabs.com/v1";
+const NODE_URL = "https://fullnode.devnet.aptoslabs.com/v1";
 
 export const client = new AptosClient(NODE_URL);
 

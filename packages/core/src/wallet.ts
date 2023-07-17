@@ -38,7 +38,7 @@ export async function updateWalletSequence(
 ) {
   await db
     .updateTable("wallet")
-    .set({ sequence_number })
+    .set({ "sequence_number": sequence_number })
     .where("id", "=", id)
-    .execute();
+    .executeTakeFirstOrThrow();
 }

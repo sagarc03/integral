@@ -2,6 +2,7 @@ import { validateWalletAndReturnSequenceNumber } from "@integral/core/aptos";
 import { addWallet, destoryWallet, getAllWallet } from "@integral/core/wallet";
 import { ApiHandler } from "sst/node/api";
 import { Events } from "./events";
+import { maxSequenceNumber } from "@integral/core/transactions";
 
 export const list = ApiHandler(async (_evt) => {
   const res = await getAllWallet();
@@ -71,7 +72,8 @@ export const checkForNewTransaction = async () => {
     if (sequence_number == undefined) {
       return;
     }
-    if (sequence_number !== wallet.sequence_number) {
+    const [ { max_sequence_number } ] = await maxSequenceNumber(wallet.id)
+    if (sequence_number !== max_sequence_number) {
       Events.WALLET.CREATED.publish({
         id: wallet.id,
         last_sequence: sequence_number,

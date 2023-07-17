@@ -36,6 +36,6 @@
     "eslint-plugin-tailwindcss": "^3.13.0",
     "prettier": "^3.0.0",
     "prettier-plugin-tailwindcss": "^0.4.1",
-    "sst": "^2.21.4"
+    "sst": "2.21.8"
   }
 }

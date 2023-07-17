@@ -55,6 +55,7 @@ export function Default({ stack }: StackContext) {
     path: "packages/web",
     bind: [api],
   });
+
   stack.addOutputs({
     SiteUrl: site.url,
     ApiEndpoint: api.url,

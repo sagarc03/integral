@@ -20,7 +20,7 @@ type Wallet = {
 };
 
 const getData = async (): Promise<Wallet[]> => {
-  const res = await fetch(`${Api.api.url}/wallet`);
+  const res = await fetch(`${Api.api.url}/wallet`,{cache:"reload"});
   return await res.json();
 };
 
